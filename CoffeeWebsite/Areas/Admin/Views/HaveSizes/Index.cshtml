@@ -1,0 +1,90 @@
+﻿@model IEnumerable<CoffeeWebsite.Models.HaveSize>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Product Prices</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home">Home</a></li>
+                    <li class="breadcrumb-item active">Product Prices</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex">
+                        <div class="card-title">
+                            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Product.ProductName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Prices)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ProductSize.SizeName)
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                                    </td>
+                                    <td>
+                                        @{
+                                            var prices = item.Prices.GetValueOrDefault().ToString("N0");
+                                        }
+                                        @Html.DisplayFor(modelItem => prices) đ
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProductSize.SizeName)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.HaveSizeID }, new { @class = "btn btn-warning" })
+                                        @Html.ActionLink("Details", "Details", new { id = item.HaveSizeID }, new { @class = "btn btn-info" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.HaveSizeID }, new { @class = "btn btn-danger" })
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+

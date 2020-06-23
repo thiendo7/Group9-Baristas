@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = ViewBag.Message;
+
+}
+
+<main>
+    <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')">
+        <div class="text-shadow"></div>
+    </div>
+
+    <div class="container">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            if (!string.IsNullOrEmpty(message))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Html.Raw(message)
+                </div>
+            }
+            <div class="form-group">
+                <label for="UserName">Tài khoản</label>
+                <input name="UserName" type="text" placeholder="Nhập tài khoản" class="form-control" id="UserName">
+            </div>
+
+            <div class="form-group">
+                <label for="CustomerName">Họ và tên</label>
+                <input type="text" placeholder="Nhập họ tên" class="form-control" id="CustomerName" name="CustomerName">
+            </div>
+
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="text" placeholder="Nhập email" class="form-control" id="Email" name="Email">
+            </div>
+
+            <div class="form-group">
+                <label for="Address">Địa chỉ</label>
+                <input type="text" placeholder="Nhập tài khoản" class="form-control" id="Address" name="Address">
+            </div>
+
+            <div class="form-group">
+                <label for="Phone">Số điện thoại</label>
+                <input type="text" placeholder="Nhập số điện thoại" class="form-control" id="Phone" name="Phone">
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Mật khẩu</label>
+                <input name="Password" type="password" placeholder="Nhập mật khẩu" class="form-control" id="Password">
+            </div>
+
+            <div class="form-group">
+                <label for="RePassword">Nhập lại mật khẩu</label>
+                <input name="RePassword" type="password" placeholder="Nhập mật khẩu" class="form-control" id="RePassword">
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+
+            </div>
+        }
+    </div>
+</main>
+
+

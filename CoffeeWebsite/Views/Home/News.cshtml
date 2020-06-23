@@ -1,0 +1,162 @@
+﻿@model CoffeeWebsite.Commons.PaginatedList<CoffeeWebsite.Models.News>
+
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var newsCategories = ViewData["NewCategories"] as List<CoffeeWebsite.Models.NewsCategory>;
+    var tags = ViewData["Tags"] as List<CoffeeWebsite.Models.Tag>;
+
+    int pageIndex = (int)ViewData["PageIndex"];
+
+    string currentSort = ViewData["CurrentSort"] != null ? ViewData["CurrentSort"].ToString() : string.Empty;
+
+    string isDateAsc = currentSort == "date_asc" ? "active" : "";
+    string isDateDesc = currentSort == "date_desc" ? "active" : "";
+}
+
+<main style="background: rgb(18, 18, 20)">
+    <div class="order-now">
+        <a href="/Home/Menu">
+            <img src="~/Assets/image/buy-now-icon.jpg" alt="buy now"
+                 class="order-now-btn">
+        </a>
+    </div>
+
+    <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')" ;>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="titile-name">Tin tức</div>
+            </div>
+        </div>
+        <div class="text-shadow"></div>
+    </div>
+
+    <div class="container" style="padding-top: 60px">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="row justify-content-between">
+                    <form action="#" class="search-form">
+                        <div class="form-group">
+                            <div class="icon">
+                                <span class="fas fa-search"></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                        </div>
+                    </form>                 
+
+                    <div class="btn-sort float-right">
+                        <button style="color:black" class="btn prices-sort" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Sắp xếp<span>
+                                <i class="fas fa-chevron-down"
+                                   style="margin-left: 5px;"></i>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @Html.ActionLink("Mới nhất", "News", "Home", new { sortOrder = "date_desc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isDateDesc })
+
+                            @Html.ActionLink("Cũ nhất", "News", "Home", new { sortOrder = "date_asc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isDateAsc })
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="news-category-list">
+                    <h3>Thể loại</h3>
+
+                    @foreach (var item in newsCategories)
+                    {
+                        <li class="">
+                            <a href="/Home/News?searchCategory=@item.NewsCateID" class="d-flex justify-content-between">@item.NewsCateName <span>(@item.News.Count)</span></a>
+                        </li>
+                    }
+                </ul>
+                <div class="news-tag-list">
+                    <h3>Tag phổ biến</h3>
+                    <div class="news-tag-items">
+                        @foreach (var tag in tags)
+                        {
+                            <a href="#" class="news-tag-item-link">@tag.TagsName</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="news-card my-3">
+                                <div class="news-image">
+                                    <a href="/Home/NewsDetail?newId=@item.NewsID">
+                                        <div class="embed-responsive embed-responsive-21by9">
+
+                                            @if (item.Image != null)
+                                            {
+                                                <img src="@item.Image" alt="" class="embed-responsive-item item-prouct-mg">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Assets/image/news-image-2.jpg" alt="" class="embed-responsive-item item-prouct-mg">
+                                            }
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="news-content">
+                                    <div class="news-category mt-3">
+                                        @item.NewsCategory.NewsCateName
+                                    </div>
+                                    <h4 class="news-titile mt-3">
+                                        <a href="/Home/NewsDetail?newId=@item.NewsID">
+                                            @item.NewsName
+                                        </a>
+                                    </h4>
+                                    <div class="news-date-posted d-flex mt-3">
+                                        <i class="far fa-calendar-alt"></i>
+                                        <div class="date">@item.CreatedDate.GetValueOrDefault().ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                    <div class="news-description mt-3">
+                                        @Html.Raw(item.Content)
+                                    </div>
+                                    <a href="/Home/NewsDetail?newId=@item.NewsID">
+                                        <button class="news-btn btn1 my-3">
+                                            Xem Thêm
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @{
+                    var prevDisabled = !Model.CanGoToPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.CanGoToNexPage ? "disabled" : "";
+                }
+
+                <nav class="d-flex justify-content-lg-center">
+                    <ul class="pagination">
+                        <li class="page-item @prevDisabled">
+
+                            @Html.ActionLink("Previous", "News", "Home", new { sortOrder = @ViewData["CurrentSort"], currentFilter = @ViewData["CurrentCategory"], pageIndex = Model.PageIndex - 1 }, new { @class = "page-link" })
+                        </li>
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            string isSelectedPage = (i == pageIndex ? "active" : "");
+
+                            <li class="page-item @isSelectedPage">
+                                <a class="page-link" href="javascript:;">@i</a>
+                            </li>
+                        }
+
+                        <li class="page-item @nextDisabled">
+                            @Html.ActionLink("Next", "News", "Home", new { sortOrder = @ViewData["CurrentSort"], currentFilter = @ViewData["CurrentCategory"], pageIndex = Model.PageIndex + 1 }, new { @class = "page-link" })
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+</main>

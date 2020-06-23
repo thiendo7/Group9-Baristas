@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CoffeeWebsite.Models.BookingTable>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Booking Table</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home">Home</a></li>
+                    <li class="breadcrumb-item active">Booking Table</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Phone)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NumberCustomer)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.BookingDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.BookingTime)
+                                    </th>
+                                    <th>
+                                        Trạng thái
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Phone)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NumberCustomer)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BookingDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BookingTime)
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.IsActive == true)
+                                                {
+                                                    <p>Đang xử lý</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>Đã xử lý</p>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Proccess", "Delete", new { id = item.BookingTableID }, new { @class = "btn btn-success" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>

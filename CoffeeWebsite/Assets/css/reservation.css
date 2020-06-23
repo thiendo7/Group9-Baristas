@@ -1,0 +1,26 @@
+.reservation-bg{
+    background: url(../image/section-title-bg-4.jpg);
+    padding: 150px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 100%;
+    position: relative;
+    height: 750px;
+}
+
+.reservation-title{
+    font-size: 40px;
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 99999999999999;
+}
+
+.reservation{
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 5px 15px rgb(216, 216, 216);
+}

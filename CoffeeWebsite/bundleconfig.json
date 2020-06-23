@@ -1,0 +1,32 @@
+[
+  {
+    "outputFileName": "Assets/site.min.css",
+    "inputFiles": [
+      "Assets/css/reset.css",
+      "Assets/css/about.css",
+      "Assets/css/cart.css",
+      "Assets/css/dangki.css",
+      "Assets/css/feedback.css",
+      "Assets/css/homepage.css",
+      "Assets/css/login.css",
+      "Assets/css/menu.css",
+      "Assets/css/navbar.css",
+      "Assets/css/news.css",
+      "Assets/css/productdetail.css",
+      "Assets/css/promotion.css",
+      "Assets/css/radiobtn.css",
+      "Assets/css/reservation.css",
+      "Assets/css/user_profile.css"
+    ]
+  },
+  {
+    "outputFileName": "Assets/site.min.js",
+    "inputFiles": [
+      "Assets/js/main.js"
+    ],
+    "minify": {
+      "enabled": true
+    },
+    "sourceMap": false
+  }
+]

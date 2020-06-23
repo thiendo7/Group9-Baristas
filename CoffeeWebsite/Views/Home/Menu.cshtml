@@ -1,0 +1,174 @@
+﻿@model CoffeeWebsite.Commons.PaginatedList<CoffeeWebsite.Models.Product>
+
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var productCategories = ViewData["ProductCategories"] as List<CoffeeWebsite.Models.ProductCategory>;
+    int selectedCategory = (int)ViewData["SelectedCategory"];
+
+    int pageIndex = (int)ViewData["PageIndex"];
+
+    string currentSort = ViewData["CurrentSort"] != null ? ViewData["CurrentSort"].ToString() : string.Empty;
+
+    string isDateAsc = currentSort == "date_asc" ? "active" : "";
+    string isDateDesc = currentSort == "date_desc" ? "active" : "";
+    string isPriceAsc = currentSort == "price_asc" ? "active" : "";
+    string isPriceDesc = currentSort == "price_desc" ? "active" : "";
+}
+
+<main>
+    <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')">
+        <div class="text-shadow"></div>
+    </div>
+
+    <div style="margin-top:50px"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-2 col-sm-6">
+                <h3>
+                    Danh mục
+                </h3>
+
+                @if (productCategories.Any())
+                {
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                        @foreach (var category in productCategories)
+                        {
+                            string isSelected = category.ProductCateID == selectedCategory ? "active" : string.Empty;
+
+                            @Html.ActionLink(category.CateName, "Menu", "Home", new { searchCategory = category.ProductCateID }, new { @class = "nav-link " + isSelected })
+                        }
+                    </div>
+                }
+
+
+            </div>
+
+            <div class="col-lg-9 col-md-10 col-sm-6">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <div class="row d-flex justify-content-between">
+                            <div class="menu-title">
+                                <h3>
+                                    <span class="menu-title line-affter">MENU</span>
+                                </h3>
+                            </div>
+                            <div class="btn-sort float-right">
+                                <button class="btn prices-sort" type="button" data-toggle="dropdown" style="margin:10px 0; color:black"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    Sắp xếp
+                                    <span>
+                                        <i class="fas fa-chevron-down"
+                                           style="margin-left: 5px;"></i>
+                                    </span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    @Html.ActionLink("Mới nhất", "Menu", "Home", new { sortOrder = "date_desc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isDateDesc })
+
+                                    @Html.ActionLink("Cũ nhất", "Menu", "Home", new { sortOrder = "date_asc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isDateAsc })
+
+                                    @Html.ActionLink("Giá cao tới thấp", "Menu", "Home", new { sortOrder = "price_desc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isPriceDesc })
+
+                                    @Html.ActionLink("Giá thấp tới cao", "Menu", "Home", new { sortOrder = "price_asc", currentFilter = @ViewData["CurrentCategory"] }, new { @class = "dropdown-item " + isPriceAsc })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @foreach (var product in Model)
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-12 my-4">
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <a href="/Product/Index?productId=@product.ProductID">
+                                                <div class="embed-responsive embed-responsive-1by1">
+                                                    @if (product.image != null)
+                                                    {
+                                                        <img src="@product.image" alt="espresso" class="embed-responsive-item item-prouct-mg">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Assets/image/espresso.jpg" alt="" class="embed-responsive-item item-prouct-mg">
+                                                    }
+                                                    
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <h4 class="product-title">
+                                            @Html.ActionLink(product.ProductName, "Index", "Product", new { productId = product.ProductID }, new { @class="" })
+                                        </h4>
+
+                                        <div class="rating-view d-flex justify-content-center">
+                                            @{
+                                                if (product.Ratings.Count != 0)
+                                                {
+                                                    int total = 0;
+                                                    for (int i = 0; i < product.Ratings.Count; i++)
+                                                    {
+                                                        total += (int)product.Ratings.ElementAt(i).NumberStar;
+                                                    }
+
+                                                    total = total / product.Ratings.Count;
+
+                                                    for (int i = 0; i < total; i++)
+                                                    {
+                                                        <i class="far fa-star"></i>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+
+                                        <div class="prices d-flex justify-content-center">
+                                            <i class="fas fa-tag"></i>
+                                            @if (product.HaveSizes.Any())
+                                            {
+                                                @product.HaveSizes.First().Prices.GetValueOrDefault().ToString("N0") <span>Đ</span>
+                                            }
+                                        </div>
+
+                                        <div class="best-sale">
+                                            <img src="~/Assets/image/best-seller.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @{
+                            var prevDisabled = !Model.CanGoToPreviousPage ? "disabled" : "";
+                            var nextDisabled = !Model.CanGoToNexPage ? "disabled" : "";
+                        }
+
+
+                        <nav class="d-flex justify-content-lg-center">
+                            <ul class="pagination">
+                                <li class="page-item @prevDisabled">
+
+                                    @Html.ActionLink("Previous", "Menu", "Home", new { sortOrder = @ViewData["CurrentSort"], currentFilter = @ViewData["CurrentCategory"], pageIndex = Model.PageIndex - 1 }, new { @class = "page-link" })
+                                </li>
+
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    string isSelectedPage = (i == pageIndex ? "active" : "");
+
+                                    <li class="page-item @isSelectedPage">
+                                        <a class="page-link" href="javascript:;">@i</a>
+                                    </li>
+                                }
+
+                                <li class="page-item @nextDisabled">
+                                    @Html.ActionLink("Next", "Menu", "Home", new { sortOrder = @ViewData["CurrentSort"], currentFilter = @ViewData["CurrentCategory"], pageIndex = Model.PageIndex + 1 }, new { @class = "page-link" })
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

@@ -1,0 +1,192 @@
+﻿@model CoffeeWebsite.Models.CartModel
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string message = ViewBag.Message;
+}
+
+@if (Model != null)
+{
+    <main>
+
+        <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')" ;>
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="titile-name">Giỏ Hàng</div>
+                </div>
+            </div>
+            <div class="text-shadow"></div>
+        </div>
+
+        @using (Html.BeginForm("Payment", "Cart", FormMethod.Post, new { @class = "" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.IsSubmit)
+            <div class="container">                
+                <div class="row my-5">
+                    <div class="col-12">
+                        @if (!string.IsNullOrEmpty(message))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @Html.Raw(message)
+                            </div>
+                        }
+                    </div>
+                    <div class="col-xl-7 col-md-8 col-sm-12">                     
+                        <div class="bg-white inform-zone">
+                            <h5>Thông tin người nhận</h5>
+                            <div class="name-and-phone d-flex justify-content-between">
+                                <div class="input-group name ">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+
+                                    @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", @placeholder = "Nhập số điện thoại" })
+
+
+                                </div>
+                                <div class="input-group phone ml-5">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-mobile"></i>
+                                        </span>
+                                    </div>
+
+                                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Nhập số điện thoại" })
+
+                                </div>
+                            </div>
+                            <div class="input-group location">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker"></i>
+                                    </span>
+                                </div>
+
+                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Nhập địa chỉ nhận hàng" })
+
+                            </div>
+
+                            @Html.TextAreaFor(x => x.Note, new { @rows = "5", @class = "form-control", @placeholder = "Nhập ghi chú của bạn" })
+
+                            <p class="cart-note">
+                                <strong><u>Lưu ý:</u></strong> Trong trường hợp hệ thống không hiển thị đúng phí giao hàng Quý khách vui lòng gọi cho quán
+                                để được hỗ trợ. Hotline hỗ trợ khách hàng 19001516
+                            </p>
+
+                            <h5>Chọn hình thức thanh toán</h5>
+                            <div class="pay-option">
+                                @Html.HiddenFor(x => x.PaymentId)
+                                @foreach (var item in Model.Payments)
+                                {
+                                    <div class="inputGroup" onclick="ChangePayment('@item.PaymentID')">
+                                        <input type="radio" name="pay-option" id="radio-@item.PaymentID" @Html.Raw(item.PaymentID == Model.PaymentId ? "checked" : "")>
+                                        <label for="radio-@item.PaymentID">@item.PaymentStatus</label>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-5 col-md-4 col-sm-12">
+                        <div class="bg-white inform-zone">
+                            <div class="row d-flex justify-content-between">
+                                <h5>Chi tiết đơn hàng</h5>
+                                <a href="/Home/Menu" class="btn btn-sm btn-primary add-more mr-3 align-self-center">Thêm món</a>
+                            </div>
+                            <hr>
+
+                            @foreach (var cartItem in Model.CartItems)
+                            {
+                                <div class="product-order d-flex justify-content-between mb-3">
+                                    <div class="product-quantity-and-name d-flex">
+                                        <div class="product-quantity">@cartItem.Quantity</div>
+                                        <div class="product-name">@cartItem.Product.ProductName</div>
+                                    </div>
+                                    <div class="product-prices-and-cancel d-flex">
+                                        @{ 
+                                            var priceProduct = (double)cartItem.Product.HaveSizes.First().Prices;
+                                            var quantity = cartItem.Quantity;
+                                        }
+
+                                        <div class="product-prices">@((priceProduct * quantity).ToString("N0")) <span>đ</span></div>
+
+                                        @Html.ActionLink("X", "RemoveItem", "Cart", new { productId = cartItem.Product.ProductID } , new { @class="product-cancel" })
+                                    </div>
+                                </div>
+                            }
+
+
+
+                            <div class="cost d-flex justify-content-between my-2">
+                                <p class="cost-text">Cộng</p>
+                                <div class="cost-number">@Model.TotalCart.ToString("N0") <span>đ</span></div>
+                            </div>
+
+                            <div class="shipping-cost d-flex justify-content-between">
+                                <p class="shipping-cost-text">Phí vận chuyển</p>
+                                <div class="shipping-cost-number">0<span>đ</span></div>
+                            </div>
+
+                            <div class="shipping-cost d-flex justify-content-between">
+                                <p class="shipping-cost-text">Giảm giá</p>
+                                <div class="shipping-cost-number">@Model.TotalDiscountByCode.ToString("N0")<span>đ</span></div>
+                            </div>
+
+                            <div class="discount-code">
+                                <p class="discount-code-text" style="margin-bottom: 0 !important">Nhập mã khuyến mãi:</p>
+                                <div class="input-group input-group-sm mt-0s">
+
+                                    @Html.TextBoxFor(x => x.DiscountCode, new { @class = "form-control", @placeholder = "Nhập mã khuyến mại tại đây" })
+
+                                    <div class="input-group-append">
+                                        <button onclick="GotoPayment('0')" type="button" class="btn btn-secondary discount-btn">Áp dụng</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <h5 class="total-cost d-flex justify-content-between ">
+                                <div class="total-cost-text">
+                                    Tổng cộng
+                                </div>
+                                <div class="total-cost-number">
+                                    @Model.TotalFinal.ToString("N0") <span>đ</span>
+                                </div>
+                            </h5>
+                            <button onclick="GotoPayment('1')" type="button" class="btn btn-success order-btn">Đặt hàng</button>
+                            <button type="submit" id="Payment" style="display:none;visibility:hidden"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        }
+
+
+    </main>
+}
+
+<script>
+    function GotoPayment(isPayment) {
+        console.log(isPayment);
+
+        if (isPayment == 1) {
+            $('#IsSubmit').val(true);
+            $('#Payment').click();
+        }
+
+        if (isPayment == 0) {
+            $('#IsSubmit').val(false);
+            $('#Payment').click();
+        }
+    }
+
+    function ChangePayment(paymentId) {
+
+        var paymentId = paymentId * 1;
+        $('#PaymentId').val(paymentId);
+    }
+</script>

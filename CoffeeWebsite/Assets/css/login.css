@@ -1,0 +1,36 @@
+.to {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+    border: 1px solid #80808000;   
+    border-radius: 10px;
+    box-shadow: 0px 0px 14px 0px grey;
+    background-color: white;
+    padding: 20px;
+    margin: 50px 0;
+}
+
+h2 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+i.fab.fa-app-store-ios {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 28px;
+} 
+
+.center {
+    align-content: center;
+    text-align: center;
+    padding-bottom: 15px;
+}
+.padding {
+    padding-top: 20px;
+}
+
+

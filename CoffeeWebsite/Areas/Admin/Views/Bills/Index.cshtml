@@ -1,0 +1,129 @@
+﻿@model IEnumerable<CoffeeWebsite.Models.Bill>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Bills</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home">Home</a></li>
+                    <li class="breadcrumb-item active">Bills</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Customer Name
+                                    </th>
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Total)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Discount) (%)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TotalDiscount)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Noted)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsPaid)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Payment.PaymentStatus)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerPhoneNumber)
+                                    </td>
+
+                                    <td>
+                                        @{
+                                            var date = item.CreatedDate.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                            @Html.DisplayFor(modelItem => date)
+                                        }
+                                    </td>
+                                    <td>
+
+                                        @{
+                                            var prices = item.Total.GetValueOrDefault().ToString("N0");
+                                        }
+                                        @Html.DisplayFor(modelItem => prices) đ
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Discount)
+                                    </td>
+                                    <td>
+                                        @{
+                                            var pricesFinal = item.TotalDiscount.GetValueOrDefault().ToString("N0");
+                                        }
+                                        @Html.DisplayFor(modelItem => pricesFinal) đ
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Noted)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsPaid)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Payment.PaymentStatus)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = item.BillID }, new { @class="btn btn-info" })
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>

@@ -1,0 +1,149 @@
+/* Slideshow container */
+.slideshow-container {
+  position: relative;
+  background: #f1f1f1f1;
+  margin-bottom: 50px;
+}
+
+/* Slides */
+.mySlides {
+  display: none;
+  padding: 20px;
+  height: 300px;
+}
+
+/* Next & previous buttons */
+/*.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -30px;
+  padding: 16px;
+  color: #888;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+*/
+/* Position the "next button" to the right */
+/*.next {
+  position: absolute;
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.prev {
+  position: absolute;
+  left: 0;
+  float: left;
+}*/
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+}
+
+/* Item */
+.item{
+  float: left;
+  width: 30%;
+  margin-left: 2%;
+  color: #333;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.item >img{
+  border: groove;
+  margin-bottom: 10px;
+}
+.item > h4{
+  margin-block-start: 0em;
+  margin-block-end: 0.3em;
+  margin-left: 10px;
+}
+.item > strike{
+  margin-block-start: 0em;
+  margin-block-end: 0.3em;
+  margin-left: 10px;
+}
+.gia-hien-tai{
+  color: #c90000;
+}
+.btn-mua-ngay{
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Title favourite */
+#text-title-favourite{
+  color: #c90000;
+  text-align: center;
+  padding-top:20px
+}
+
+
+/* FOOTER */
+.footer{
+  width: 100%;
+  background-color: #b45f06;
+}
+
+.footer-item{
+  background-color: #b45f06;
+  width: 30%;
+  padding-right: 2%;
+  padding-left: 1%;
+  float: left;
+  border-left: ridge;
+  border-color: #333;
+}
+.footer-item h3{
+  color: white;
+}
+
+.footer-item-content{
+  background-color: white;
+  color: #333;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.footer-follow-us{
+  color: white;
+  margin-left: 15%;
+  width: fit-content;
+  font-weight: bold;
+  font-size: 18px;
+  padding-bottom: 20px;
+}
+.fa-hand-point-right{
+  margin-left: 10px;
+}
+.facebook {
+  background: transparent;
+  color: #3B5998;
+  width: 10px;
+  margin-left: 30px;
+}
+
+.twitter {
+  background: #55ACEE;
+  color: white;
+  margin-left: 20px;
+}
+
+footer  {
+  background-color: rgb(31, 29, 29);
+  color: white;
+}
+.center {
+  align-content: center;
+  text-align: center;
+  padding-bottom: 15px;
+}
+.padding {
+  padding-top: 20px;
+}

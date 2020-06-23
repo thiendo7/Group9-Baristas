@@ -1,0 +1,141 @@
+﻿@model CoffeeWebsite.Models.News
+@{
+    ViewBag.Title = "NewsDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var newsCategories = ViewData["NewCategories"] as List<CoffeeWebsite.Models.NewsCategory>;
+    var tags = ViewData["Tags"] as List<CoffeeWebsite.Models.Tag>;
+    var newRelatives = ViewData["NewRelatives"] as List<CoffeeWebsite.Models.News>;
+}
+
+<main style="background: rgb(18, 18, 20)">
+
+    <div class="order-now">
+        <a href="/Home/Menu">
+            <img src="~/Assets/image/buy-now-icon.jpg" alt="buy now"
+                 class="order-now-btn">
+        </a>
+    </div>
+
+    <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')" ;>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="titile-name">Chi tiết tin tức</div>
+            </div>
+        </div>
+        <div class="text-shadow"></div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-12 my-5 news-content-details">
+                <h1>@Model.NewsName</h1>
+
+                <div>
+                    @Html.Raw(Model.Content)
+                </div>
+
+                <div class="pt-5 mt-5">
+                    <h3 class="mb-5 news-details-title">Bình luận</h3>
+                    <ul class="comment-list">
+                        <li class="comment">
+                            <div class="vcard bio">
+                                <img src="~/Assets/image/avatar.jpg" alt="">
+                            </div>
+                            <div class="comment-body">
+                                <h3>Duy Thiện</h3>
+                                <div class="meta"> 22 Tháng năm, 2020 at 2:21 pm</div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde
+                                    architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.
+                                </p>
+                                <p>
+                                    <a href="#" class="reply">Reply</a>
+                                </p>
+                            </div>
+                            <ul class="children">
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="~/Assets/image/avatar-1.jpg" alt="">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>Thái Hòa</h3>
+                                        <div class="meta"> 22 Tháng năm, 2020 at 2:21 pm</div>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde
+                                            architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.
+                                        </p>
+                                        <p>
+                                            <a href="#" class="reply">Reply</a>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3 class="my-5 news-details-title">Hãy để lại bình luận của bạn</h3>
+                    <div class="form-group">
+                        <label for="message">Bình luận</label>
+                        <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Gửi" class="btn py-3 px-4 btn-primary">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 my-5">
+                <div class="news-category-list my-3">
+                    <h3>Thể loại</h3>
+
+                    @foreach (var item in newsCategories)
+                    {
+                        <li class="">
+                            <a href="/Home/News?searchCategory=@item.NewsCateID" class="d-flex justify-content-between">@item.NewsCateName <span>(@item.News.Count)</span></a>
+                        </li>
+                    }
+                </div>
+                <div class="news-tag-list my-3">
+                    <h3>Tag phổ biến</h3>
+                    <div class="news-tag-items">
+
+                        @foreach (var tag in tags)
+                        {
+                            <a href="#" class="news-tag-item-link">@tag.TagsName</a>
+                        }
+
+                    </div>
+                </div>
+                <div class="relate-news my-3">
+                    <h3>Tin tức liên quan</h3>
+
+                    @foreach (var item in newRelatives)
+                    {
+                        <div class="block-21 mb-4 d-flex">
+                            <a class="blog-img mr-4" style="background-image: url('../Assets/image/image_1.jpg');"></a>
+                            <div class="text">
+                                <h3 class="heading">
+                                    <a href="/Home/NewsDetail?newId=@item.NewsID">
+                                        @item.NewsName
+                                    </a>
+                                </h3>
+                                <div class="meta">
+                                    <div>
+                                        <a href="/Home/NewsDetail?newId=@item.NewsID">
+                                            <span class="far fa-calendar-alt">
+                                            </span> @item.CreatedDate.GetValueOrDefault().ToString("dd/MM/yyyy")
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+

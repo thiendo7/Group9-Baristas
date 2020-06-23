@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BaristasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AboutU">
+    <Key>
+      <PropertyRef Name="AboutUsID" />
+    </Key>
+    <Property Name="AboutUsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OurStory" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurStoryImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OurVision1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurVision2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurVision3" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurVision4" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurMenu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OurMenuImage1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OurMenuImage2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OurMenuImage3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OurMenuImage4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="AccountID" />
+    </Key>
+    <Property Name="AccountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountTypeID" Type="Int32" />
+    <Property Name="UserName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccountType" Relationship="Self.FK__Account__Account__66603565" FromRole="Account" ToRole="AccountType" />
+    <NavigationProperty Name="Bills" Relationship="Self.FK__Bill__AccountID__6754599E" FromRole="Account" ToRole="Bill" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__Account__6B24EA82" FromRole="Account" ToRole="Comment" />
+    <NavigationProperty Name="Ratings" Relationship="Self.FK__Rating__AccountI__73BA3083" FromRole="Account" ToRole="Rating" />
+  </EntityType>
+  <EntityType Name="AccountType">
+    <Key>
+      <PropertyRef Name="AccountTypeID" />
+    </Key>
+    <Property Name="AccountTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountTypeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK__Account__Account__66603565" FromRole="AccountType" ToRole="Account" />
+  </EntityType>
+  <EntityType Name="Bill">
+    <Key>
+      <PropertyRef Name="BillID" />
+    </Key>
+    <Property Name="BillID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="TotalDiscount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Noted" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerPhoneNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsPaid" Type="Boolean" />
+    <Property Name="PaymentID" Type="Int32" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Bill__AccountID__6754599E" FromRole="Bill" ToRole="Account" />
+    <NavigationProperty Name="BillDetails" Relationship="Self.FK__BillDetai__BillI__693CA210" FromRole="Bill" ToRole="BillDetails" />
+    <NavigationProperty Name="Payment" Relationship="Self.FK_Bill_PayMent" FromRole="Bill" ToRole="Payment" />
+  </EntityType>
+  <EntityType Name="BillDetail">
+    <Key>
+      <PropertyRef Name="BillDetailID" />
+    </Key>
+    <Property Name="BillDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="BillID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="Bill" Relationship="Self.FK__BillDetai__BillI__693CA210" FromRole="BillDetails" ToRole="Bill" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__BillDetai__Produ__6A30C649" FromRole="BillDetails" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="BookingTable">
+    <Key>
+      <PropertyRef Name="BookingTableID" />
+    </Key>
+    <Property Name="BookingTableID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="NumberCustomer" Type="Int32" />
+    <Property Name="BookingDate" Type="DateTime" Precision="0" />
+    <Property Name="BookingTime" Type="Time" Precision="7" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentID" />
+    </Key>
+    <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="NewsID" Type="Int32" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PostDate" Type="DateTime" Precision="0" />
+    <Property Name="RootCommentID" Type="Int32" />
+    <Property Name="ReplyCommentToID" Type="Int32" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Comment__Account__6B24EA82" FromRole="Comment" ToRole="Account" />
+    <NavigationProperty Name="News" Relationship="Self.FK__Comment__NewsID__6C190EBB" FromRole="Comment" ToRole="News" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Comment__Product__6D0D32F4" FromRole="Comment" ToRole="Product" />
+    <NavigationProperty Name="Comment1" Relationship="Self.FK__Comment__ReplyCo__6E01572D" FromRole="Comment" ToRole="Comment1" />
+    <NavigationProperty Name="Comment2" Relationship="Self.FK__Comment__ReplyCo__6E01572D" FromRole="Comment1" ToRole="Comment" />
+    <NavigationProperty Name="Comment11" Relationship="Self.FK__Comment__RootCom__6EF57B66" FromRole="Comment" ToRole="Comment1" />
+    <NavigationProperty Name="Comment3" Relationship="Self.FK__Comment__RootCom__6EF57B66" FromRole="Comment1" ToRole="Comment" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="DiscountID" />
+    </Key>
+    <Property Name="DiscountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DiscountCode" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="DiscountPercent" Type="Double" />
+  </EntityType>
+  <EntityType Name="FeedBack">
+    <Key>
+      <PropertyRef Name="FeedBackID" />
+    </Key>
+    <Property Name="FeedBackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Age" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Job" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Another" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Footer">
+    <Key>
+      <PropertyRef Name="FooterID" />
+    </Key>
+    <Property Name="FooterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OpenTime1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="OpenTime2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="FacebookLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="InstaLink" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HaveSize">
+    <Key>
+      <PropertyRef Name="HaveSizeID" />
+    </Key>
+    <Property Name="HaveSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="ProductSizeID" Type="Int32" />
+    <Property Name="Prices" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__HaveSize__Produc__6FE99F9F" FromRole="HaveSize" ToRole="Product" />
+    <NavigationProperty Name="ProductSize" Relationship="Self.FK__HaveSize__Produc__70DDC3D8" FromRole="HaveSize" ToRole="ProductSize" />
+  </EntityType>
+  <EntityType Name="HomePageContent">
+    <Key>
+      <PropertyRef Name="HomePageContentID" />
+    </Key>
+    <Property Name="HomePageContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StoreContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StoreImage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="HomePageSilder">
+    <Key>
+      <PropertyRef Name="SilderID" />
+    </Key>
+    <Property Name="SilderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DisplayOrder" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="News">
+    <Key>
+      <PropertyRef Name="NewsID" />
+    </Key>
+    <Property Name="NewsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NewsCateID" Type="Int32" />
+    <Property Name="NewsName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__NewsID__6C190EBB" FromRole="News" ToRole="Comment" />
+    <NavigationProperty Name="NewsCategory" Relationship="Self.FK__News__NewsCateID__71D1E811" FromRole="News" ToRole="NewsCategory" />
+    <NavigationProperty Name="TagsNews" Relationship="BaristasModel.FK__TagsNews__NewsID__75A278F5" FromRole="News" ToRole="TagsNew" />
+  </EntityType>
+  <EntityType Name="NewsCategory">
+    <Key>
+      <PropertyRef Name="NewsCateID" />
+    </Key>
+    <Property Name="NewsCateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NewsCateName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="News" Relationship="Self.FK__News__NewsCateID__71D1E811" FromRole="NewsCategory" ToRole="News" />
+  </EntityType>
+  <EntityType Name="Payment">
+    <Key>
+      <PropertyRef Name="PaymentID" />
+    </Key>
+    <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Bills" Relationship="Self.FK_Bill_PayMent" FromRole="Payment" ToRole="Bill" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductCateID" Type="Int32" />
+    <Property Name="ProductName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="BillDetails" Relationship="Self.FK__BillDetai__Produ__6A30C649" FromRole="Product" ToRole="BillDetails" />
+    <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__Product__6D0D32F4" FromRole="Product" ToRole="Comment" />
+    <NavigationProperty Name="HaveSizes" Relationship="Self.FK__HaveSize__Produc__6FE99F9F" FromRole="Product" ToRole="HaveSize" />
+    <NavigationProperty Name="ProductCategory" Relationship="Self.FK__Product__Product__72C60C4A" FromRole="Product" ToRole="ProductCategory" />
+    <NavigationProperty Name="Ratings" Relationship="Self.FK__Rating__ProductI__74AE54BC" FromRole="Product" ToRole="Rating" />
+  </EntityType>
+  <EntityType Name="ProductCategory">
+    <Key>
+      <PropertyRef Name="ProductCateID" />
+    </Key>
+    <Property Name="ProductCateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CateName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__Product__Product__72C60C4A" FromRole="ProductCategory" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductSize">
+    <Key>
+      <PropertyRef Name="ProductSizeID" />
+    </Key>
+    <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SizeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="HaveSizes" Relationship="Self.FK__HaveSize__Produc__70DDC3D8" FromRole="ProductSize" ToRole="HaveSize" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="RatingID" />
+    </Key>
+    <Property Name="RatingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="Int32" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="NumberStar" Type="Double" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Rating__AccountI__73BA3083" FromRole="Rating" ToRole="Account" />
+    <NavigationProperty Name="Product" Relationship="Self.FK__Rating__ProductI__74AE54BC" FromRole="Rating" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="TagsID" />
+    </Key>
+    <Property Name="TagsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TagsName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TagsNews" Relationship="BaristasModel.FK__TagsNews__TagsID__76969D2E" FromRole="Tag" ToRole="TagsNew" />
+  </EntityType>
+  <Association Name="FK__Account__Account__66603565">
+    <End Role="AccountType" Type="Self.AccountType" Multiplicity="0..1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountType">
+        <PropertyRef Name="AccountTypeID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="AccountTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Bill__AccountID__6754599E">
+    <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="AccountID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comment__Account__6B24EA82">
+    <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="AccountID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rating__AccountI__73BA3083">
+    <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="AccountID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BillDetai__BillI__693CA210">
+    <End Role="Bill" Type="Self.Bill" Multiplicity="0..1" />
+    <End Role="BillDetails" Type="Self.BillDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bill">
+        <PropertyRef Name="BillID" />
+      </Principal>
+      <Dependent Role="BillDetails">
+        <PropertyRef Name="BillID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bill_PayMent">
+    <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payment">
+        <PropertyRef Name="PaymentID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="PaymentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BillDetai__Produ__6A30C649">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="BillDetails" Type="Self.BillDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="BillDetails">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comment__NewsID__6C190EBB">
+    <End Role="News" Type="Self.News" Multiplicity="0..1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="News">
+        <PropertyRef Name="NewsID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="NewsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comment__Product__6D0D32F4">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comment__ReplyCo__6E01572D">
+    <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+    <End Role="Comment1" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="CommentID" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="ReplyCommentToID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Comment__RootCom__6EF57B66">
+    <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+    <End Role="Comment1" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="CommentID" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="RootCommentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HaveSize__Produc__6FE99F9F">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="HaveSize" Type="Self.HaveSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="HaveSize">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HaveSize__Produc__70DDC3D8">
+    <End Role="ProductSize" Type="Self.ProductSize" Multiplicity="0..1" />
+    <End Role="HaveSize" Type="Self.HaveSize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductSize">
+        <PropertyRef Name="ProductSizeID" />
+      </Principal>
+      <Dependent Role="HaveSize">
+        <PropertyRef Name="ProductSizeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__News__NewsCateID__71D1E811">
+    <End Role="NewsCategory" Type="Self.NewsCategory" Multiplicity="0..1" />
+    <End Role="News" Type="Self.News" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewsCategory">
+        <PropertyRef Name="NewsCateID" />
+      </Principal>
+      <Dependent Role="News">
+        <PropertyRef Name="NewsCateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Product__Product__72C60C4A">
+    <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="ProductCateID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductCateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rating__ProductI__74AE54BC">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BaristasEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AboutUs" EntityType="Self.AboutU" />
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="AccountTypes" EntityType="Self.AccountType" />
+    <EntitySet Name="Bills" EntityType="Self.Bill" />
+    <EntitySet Name="BillDetails" EntityType="Self.BillDetail" />
+    <EntitySet Name="BookingTables" EntityType="Self.BookingTable" />
+    <EntitySet Name="Comments" EntityType="Self.Comment" />
+    <EntitySet Name="Discounts" EntityType="Self.Discount" />
+    <EntitySet Name="FeedBacks" EntityType="Self.FeedBack" />
+    <EntitySet Name="Footers" EntityType="Self.Footer" />
+    <EntitySet Name="HaveSizes" EntityType="Self.HaveSize" />
+    <EntitySet Name="HomePageContents" EntityType="Self.HomePageContent" />
+    <EntitySet Name="HomePageSilders" EntityType="Self.HomePageSilder" />
+    <EntitySet Name="News" EntityType="Self.News" />
+    <EntitySet Name="NewsCategories" EntityType="Self.NewsCategory" />
+    <EntitySet Name="Payments" EntityType="Self.Payment" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductCategories" EntityType="Self.ProductCategory" />
+    <EntitySet Name="ProductSizes" EntityType="Self.ProductSize" />
+    <EntitySet Name="Ratings" EntityType="Self.Rating" />
+    <EntitySet Name="Tags" EntityType="Self.Tag" />
+    <AssociationSet Name="FK__Account__Account__66603565" Association="Self.FK__Account__Account__66603565">
+      <End Role="AccountType" EntitySet="AccountTypes" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Bill__AccountID__6754599E" Association="Self.FK__Bill__AccountID__6754599E">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comment__Account__6B24EA82" Association="Self.FK__Comment__Account__6B24EA82">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rating__AccountI__73BA3083" Association="Self.FK__Rating__AccountI__73BA3083">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BillDetai__BillI__693CA210" Association="Self.FK__BillDetai__BillI__693CA210">
+      <End Role="Bill" EntitySet="Bills" />
+      <End Role="BillDetails" EntitySet="BillDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bill_PayMent" Association="Self.FK_Bill_PayMent">
+      <End Role="Payment" EntitySet="Payments" />
+      <End Role="Bill" EntitySet="Bills" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BillDetai__Produ__6A30C649" Association="Self.FK__BillDetai__Produ__6A30C649">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="BillDetails" EntitySet="BillDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comment__NewsID__6C190EBB" Association="Self.FK__Comment__NewsID__6C190EBB">
+      <End Role="News" EntitySet="News" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comment__Product__6D0D32F4" Association="Self.FK__Comment__Product__6D0D32F4">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comment__ReplyCo__6E01572D" Association="Self.FK__Comment__ReplyCo__6E01572D">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Comment__RootCom__6EF57B66" Association="Self.FK__Comment__RootCom__6EF57B66">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HaveSize__Produc__6FE99F9F" Association="Self.FK__HaveSize__Produc__6FE99F9F">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="HaveSize" EntitySet="HaveSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HaveSize__Produc__70DDC3D8" Association="Self.FK__HaveSize__Produc__70DDC3D8">
+      <End Role="ProductSize" EntitySet="ProductSizes" />
+      <End Role="HaveSize" EntitySet="HaveSizes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__News__NewsCateID__71D1E811" Association="Self.FK__News__NewsCateID__71D1E811">
+      <End Role="NewsCategory" EntitySet="NewsCategories" />
+      <End Role="News" EntitySet="News" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Product__Product__72C60C4A" Association="Self.FK__Product__Product__72C60C4A">
+      <End Role="ProductCategory" EntitySet="ProductCategories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rating__ProductI__74AE54BC" Association="Self.FK__Rating__ProductI__74AE54BC">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Rating" EntitySet="Ratings" />
+    </AssociationSet>
+    <EntitySet Name="TagsNews" EntityType="BaristasModel.TagsNew" />
+    <AssociationSet Name="FK__TagsNews__NewsID__75A278F5" Association="BaristasModel.FK__TagsNews__NewsID__75A278F5">
+      <End Role="News" EntitySet="News" />
+      <End Role="TagsNew" EntitySet="TagsNews" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TagsNews__TagsID__76969D2E" Association="BaristasModel.FK__TagsNews__TagsID__76969D2E">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="TagsNew" EntitySet="TagsNews" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TagsNew">
+    <Key>
+      <PropertyRef Name="TagsNewsID" />
+    </Key>
+    <Property Name="TagsID" Type="Int32" />
+    <Property Name="NewsID" Type="Int32" />
+    <Property Name="TagsNewsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="News" Relationship="BaristasModel.FK__TagsNews__NewsID__75A278F5" FromRole="TagsNew" ToRole="News" />
+    <NavigationProperty Name="Tag" Relationship="BaristasModel.FK__TagsNews__TagsID__76969D2E" FromRole="TagsNew" ToRole="Tag" />
+  </EntityType>
+  <Association Name="FK__TagsNews__NewsID__75A278F5">
+    <End Type="BaristasModel.News" Role="News" Multiplicity="0..1" />
+    <End Type="BaristasModel.TagsNew" Role="TagsNew" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="News">
+        <PropertyRef Name="NewsID" />
+      </Principal>
+      <Dependent Role="TagsNew">
+        <PropertyRef Name="NewsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TagsNews__TagsID__76969D2E">
+    <End Type="BaristasModel.Tag" Role="Tag" Multiplicity="0..1" />
+    <End Type="BaristasModel.TagsNew" Role="TagsNew" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="TagsID" />
+      </Principal>
+      <Dependent Role="TagsNew">
+        <PropertyRef Name="TagsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

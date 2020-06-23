@@ -1,0 +1,151 @@
+﻿@model CoffeeWebsite.Models.Account
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string message = ViewBag.Message;
+}
+
+@if (Model != null)
+{
+    <main>
+        <div class="titile-bg" style="background: url('../Assets/image/bg_2.jpg')" ;>
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="titile-name">Thông tin cá nhân</div>
+                </div>
+            </div>
+            <div class="text-shadow"></div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card card-primary card-outline mb-3">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="~/Assets/image/avatar.jpg" alt="" class="profile-user-img img-fluid img-circle">
+                            </div>
+                            <h3 class="profile-user-name text-center">
+                                <a href="#">
+                                    @Model.CustomerName
+                                </a>
+                            </h3>
+                            <p class="text-muted text-center">Khách hàng</p>
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>Số đơn hàng đã mua</b>
+                                    <p class="float-right" style="margin: 0;">@Model.Bills.Count</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Tổng bình luận</b>
+                                    <p class="float-right" style="margin: 0;">0</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a href="#inform" class="nav-link active" data-toggle="tab">Thông tin cá nhân</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#resetpass" class="nav-link" data-toggle="tab">Thay đổi mật khẩu</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Account/AccountPurchase" class="nav-link">Đơn hàng đã mua</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="inform">
+                                    @using (Html.BeginForm("AccountProfile", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        if (!string.IsNullOrEmpty(message))
+                                        {
+                                            <div class="alert alert-danger" role="alert">
+                                                @Html.Raw(message)
+                                            </div>
+                                        }
+                                        <div class="form-group row">
+                                            <label for="CustomerName" class="col-sm-2 col-form-label">Họ và tên</label>
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Email" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Address" class="col-sm-2 col-form-label">Địa chỉ</label>
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Phone" class="col-sm-2 col-form-label">Số điện thoại</label>
+                                            <div class="col-sm-10">
+                                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button class="btn btn-primary" type="submit">Thay đổi</button>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="tab-pane" id="resetpass">
+
+                                    @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        if (!string.IsNullOrEmpty(message))
+                                        {
+                                            <div class="alert alert-danger" role="alert">
+                                                @Html.Raw(message)
+                                            </div>
+                                        }
+
+                                        <div class="form-group row">
+                                            <label for="oldPass" class="col-sm-3 col-form-label">Mật khẩu cũ</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="PasswordOld" name="PasswordOld" placeholder="Password">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="newPass" class="col-sm-3 col-form-label">Mật khẩu mới</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="PasswordNew" name="PasswordNew" placeholder="New Password">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="confirmPass" class="col-sm-3 col-form-label">Mật khẩu cũ</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password">
+                                            </div>
+                                        </div>
+
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button class="btn btn-danger" type="submit">Thay đổi</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+}
+

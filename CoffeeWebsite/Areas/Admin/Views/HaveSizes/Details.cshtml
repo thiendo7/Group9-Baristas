@@ -1,0 +1,79 @@
+﻿@model CoffeeWebsite.Models.HaveSize
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Product Prices</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/Admin/Home">Home</a></li>
+                    <li class="breadcrumb-item active">Product Prices</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex">
+                        <div class="card-title">
+                            Details
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Prices)
+                            </dt>
+
+                            <dd>
+                                @{
+                                    var prices = Model.Prices.GetValueOrDefault().ToString("N0");
+                                }
+                                @Html.DisplayFor(modelItem => prices) đ
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Product.ProductName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Product.ProductName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.ProductSize.SizeName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.ProductSize.SizeName)
+                            </dd>
+                        </dl>
+
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+

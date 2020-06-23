@@ -1,0 +1,249 @@
+﻿@model CoffeeWebsite.Models.Product
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<CoffeeWebsite.Models.Product> productRelatives = ViewData["ProductRelatives"] as List<CoffeeWebsite.Models.Product>;
+
+}
+
+@if (Model != null)
+{
+    <main>
+        <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')" ;>
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="titile-name">chi tiết sản phẩm</div>
+                </div>
+            </div>
+            <div class="text-shadow"></div>
+        </div>
+
+        <div class="container">
+            <div class="row my-4">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    @if (Model.image != null)
+                    {
+                        <img src="@Model.image" alt="espresso" class="img-fluid img-thumbnail img-product">
+                    }
+                    else
+                    {
+                        <img src="~/Assets/image/espresso.jpg" alt="espresso" class="img-fluid img-thumbnail img-product">
+                    }
+                    <div class="row justify-content-center mt-3">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <div class="rating-view d-flex justify-content-center">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <a href="/Product/Ratings?score=@i&productId=@Model.ProductID">
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                }
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">Thông tin sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                               aria-controls="profile" aria-selected="false">Bình luận</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h2 class="product-name my-1">@Model.ProductName</h2>
+
+                            @using (Html.BeginForm("AddCart", "Product", FormMethod.Post, new { @class = "" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(Model => Model.ProductID)
+                                @Html.HiddenFor(Model => Model.ProductCateID)
+                                @Html.HiddenFor(Model => Model.HaveSizes.First().ProductSizeID)
+
+                                <ul class="nav nav-pills my-3 d-flex " id="pills-tab1" role="tablist">
+                                    <li>Size:</li>
+                                    @{
+                                        int count = 0;
+                                        foreach (var price in Model.HaveSizes)
+                                        {
+                                            <li onclick="ChangeSize('@price.ProductSizeID')">
+                                                <a class="product-size @Html.Raw(count == 0 ? "active" : "")" id="pills-@price.HaveSizeID-tab" data-toggle="pill" href="#pills-@price.HaveSizeID" role="tab" aria-controls="pills-home" aria-selected="true">
+                                                    @price.ProductSize.SizeName
+                                                </a>
+                                            </li>
+                                            count++;
+                                        } }
+                                </ul>
+                                <div class="ordered-quantity d-flex my-2 align-items-center">
+                                    <p style="margin: 0 !important">Số lượng:</p>
+                                    <input type="number" min="0" value="1" class="form-control quantity-form ml-2" id="Quantity" name="Quantity">
+                                </div>
+                                <div class="tab-content" id="pills-tabContent1">
+                                    @{ 
+                                        int i = 0;
+                                        foreach (var price in Model.HaveSizes)
+                                        {
+                                            <div class="tab-pane fade show @Html.Raw(i == 0 ? "active" : "")" id="pills-@price.HaveSizeID" role="tabpanel" aria-labelledby="pills-@price.HaveSizeID-tab">
+                                                <div class="prices">
+                                                    <i class="fas fa-tag"></i>
+                                                    @price.Prices.GetValueOrDefault().ToString("N0") <span>Đ</span>
+                                                </div>
+                                            </div> i++;
+                                        } }
+                                </div>
+                                <h5 class="product-description-text my-3">Chi tiết sản phẩm</h5>
+                                <p class="product-description-content mb-2">
+                                    @Html.Raw(Model.Description)
+                                </p>
+
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    <button type="submit" class="btn btn-success my-3 buy-now-btn">
+                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success my-3 buy-now-btn">
+                                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                                    </button>
+                                }
+                            }
+                        </div>
+
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <ul class="comment-list">
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="~/Assets/image/avatar.jpg" alt="">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>Duy Thiện</h3>
+                                        <div class="meta"> 22 Tháng năm, 2020 at 2:21 pm</div>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                            Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde
+                                            architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.
+                                        </p>
+                                        <p>
+                                            <a href="#" class="reply">Reply</a>
+                                        </p>
+                                    </div>
+                                    <ul class="children">
+                                        <li class="comment">
+                                            <div class="vcard bio">
+                                                <img src="~/Assets/image/avatar-1.jpg" alt="">
+                                            </div>
+                                            <div class="comment-body">
+                                                <h3>Thái Hòa</h3>
+                                                <div class="meta"> 22 Tháng năm, 2020 at 2:21 pm</div>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                    Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde
+                                                    architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et.
+                                                </p>
+                                                <p>
+                                                    <a href="#" class="reply">Reply</a>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h3 class="my-2 news-details-title">Hãy để lại bình luận của bạn</h3>
+                            <div class="form-group">
+                                <label for="message">Bình luận</label>
+                                <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+                            </div>
+                            <div class="news-content-details">
+                                <div class="form-group">
+                                    <input type="submit" value="Gửi" class="btn py-3 px-4 btn-primary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <h3 class="relate-product">sản phẩm liên quan</h3>
+            <div class="row my-4">
+                @foreach (var product in productRelatives)
+                {
+                    <div class="col-md-4 col-sm-12 my-3">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <a href="#">
+                                    <div class="embed-responsive embed-responsive-1by1">
+                                        @if (product.image != null)
+                                        {
+                                            <img src="@product.image" alt="" class="embed-responsive-item item-prouct-mg">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Assets/image/espresso.jpg" alt="" class="embed-responsive-item item-prouct-mg">
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                            <h4 class="product-title">
+                                <a href="#" class="">@product.ProductName</a>
+                            </h4>
+                            <div class="rating-view d-flex justify-content-center">
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div class="prices d-flex justify-content-center">
+                                <i class="fas fa-tag"></i>
+                                @product.HaveSizes.First().Prices.GetValueOrDefault().ToString("N0") <span> đ</span>
+                            </div>
+                            <div class="best-sale">
+                                <img src="~/Assets/image/best-seller.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
+}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn chưa đăng nhập! Hãy nhanh tay đăng nhập đê có thể trải nghiệm những dịch vụ tốt nhất từ Barista Coffee nhé
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ChangeSize(productSizeID) {
+        var productSizeID = productSizeID * 1;
+
+        $('#ProductSizeID').val(productSizeID);
+    }
+</script>
