@@ -15,7 +15,7 @@ namespace CoffeeWebsite.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        public const int pageSize = 3;
+        public const int pageSize = 4;
 
         [HttpGet]
         public ActionResult Index()

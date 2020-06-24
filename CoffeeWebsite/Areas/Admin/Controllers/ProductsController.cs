@@ -45,6 +45,7 @@ namespace CoffeeWebsite.Areas.Admin.Controllers
         {
             ViewBag.ProductCateID = new SelectList(db.ProductCategories, "ProductCateID", "CateName");
             return View(new Product());
+            
         }
 
         // POST: Admin/Products/Create

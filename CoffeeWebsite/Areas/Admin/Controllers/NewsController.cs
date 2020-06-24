@@ -124,7 +124,7 @@ namespace CoffeeWebsite.Areas.Admin.Controllers
                 news.UploadFile.SaveAs(Path.Combine(path, fileName));
 
                 pathSaveToDb = "/Assets/Uploads/" + fileName;
-
+                
                 newFromDB.Image = pathSaveToDb;
             }
 
