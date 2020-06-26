@@ -17,10 +17,22 @@
 
 <main style="background: rgb(18, 18, 20)">
     <div class="order-now">
-        <a href="/Home/Menu">
-            <img src="~/Assets/image/buy-now-icon.jpg" alt="buy now"
-                 class="order-now-btn">
-        </a>
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <a href="/Cart/Index">
+                    <img src="/Assets/image/buy-now-icon.jpg" alt="buy now"
+                         class="order-now-btn">
+                </a>
+            }
+            else
+            {
+                <a href="/Home/Menu">
+                    <img src="/Assets/image/buy-now-icon.jpg" alt="buy now"
+                         class="order-now-btn">
+                </a>
+            }
+        }
     </div>
 
     <div class="titile-bg" style="background: url('../Assets/image/bg_3.jpg')" ;>

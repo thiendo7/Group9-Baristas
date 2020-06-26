@@ -155,3 +155,23 @@ footer .follow-us a{
     top: 50%;
     bottom: 50%;
 }
+
+.percent-discount {
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-bottom: 4px;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    width: 40px;
+    height: 36px;
+    background-image: url(https://frontend.tikicdn.com/_desktop-next/static/img/icons/product/deal-tag.png);
+    background-size: 40px 36px;
+    margin: 1px 0px 0px;
+    background-position: 0px 0px;
+}

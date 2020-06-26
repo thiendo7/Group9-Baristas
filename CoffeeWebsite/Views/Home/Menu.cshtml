@@ -93,13 +93,13 @@
                                                     {
                                                         <img src="~/Assets/image/espresso.jpg" alt="" class="embed-responsive-item item-prouct-mg">
                                                     }
-                                                    
+
                                                 </div>
                                             </a>
                                         </div>
 
                                         <h4 class="product-title">
-                                            @Html.ActionLink(product.ProductName, "Index", "Product", new { productId = product.ProductID }, new { @class="" })
+                                            @Html.ActionLink(product.ProductName, "Index", "Product", new { productId = product.ProductID }, new { @class = "" })
                                         </h4>
 
                                         <div class="rating-view d-flex justify-content-center">
@@ -132,6 +132,9 @@
 
                                         <div class="best-sale">
                                             <img src="~/Assets/image/best-seller.png" alt="">
+                                        </div>
+                                        <div class="percent-discount">
+                                            -@product.Discount
                                         </div>
                                     </div>
                                 </div>

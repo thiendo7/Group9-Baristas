@@ -13,6 +13,7 @@ namespace CoffeeWebsite.Controllers
     public class ProductController : Controller
     {
         // GET: Product
+        //singleton pattern
         public ActionResult Index(int productId = 0)
         {
             if (productId == 0)
