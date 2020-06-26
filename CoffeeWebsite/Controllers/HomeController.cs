@@ -4,6 +4,7 @@ using CoffeeWebsite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -209,6 +210,12 @@ namespace CoffeeWebsite.Controllers
             var pageListProduct = PaginatedList<Product>.CreateAsync(products, pageIndex, pageSize);
 
             return View(pageListProduct);
+        }
+        
+        public PartialViewResult FeatureProduct()
+        {
+            var featureproduct = ProductService.Instance.GetFeatureProduct();
+            return PartialView(featureproduct);
         }
     }
 }

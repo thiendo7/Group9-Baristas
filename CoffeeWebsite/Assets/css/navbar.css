@@ -159,7 +159,7 @@ footer .follow-us a{
 .percent-discount {
     position: absolute;
     top: 15px;
-    left: 25px;
+    right: 25px;
     display: flex;
     -webkit-box-pack: center;
     justify-content: center;
@@ -174,4 +174,6 @@ footer .follow-us a{
     background-size: 40px 36px;
     margin: 1px 0px 0px;
     background-position: 0px 0px;
+    font-size:13px;
+    line-height:1.6;
 }

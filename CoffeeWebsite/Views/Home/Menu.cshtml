@@ -134,7 +134,13 @@
                                             <img src="~/Assets/image/best-seller.png" alt="">
                                         </div>
                                         <div class="percent-discount">
-                                            -@product.Discount
+                                            @{
+                                                var discountpercent = product.Discount * 100;
+                                                if (discountpercent > 0)
+                                                {
+                                                    <span>-@discountpercent%</span>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 </div>

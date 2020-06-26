@@ -82,14 +82,15 @@
                                                 </a>
                                             </li>
                                             count++;
-                                        } }
+                                        }
+                                    }
                                 </ul>
                                 <div class="ordered-quantity d-flex my-2 align-items-center">
                                     <p style="margin: 0 !important">Số lượng:</p>
                                     <input type="number" min="0" value="1" class="form-control quantity-form ml-2" id="Quantity" name="Quantity">
                                 </div>
                                 <div class="tab-content" id="pills-tabContent1">
-                                    @{ 
+                                    @{
                                         int i = 0;
                                         foreach (var price in Model.HaveSizes)
                                         {
@@ -99,7 +100,8 @@
                                                     @price.Prices.GetValueOrDefault().ToString("N0") <span>Đ</span>
                                                 </div>
                                             </div> i++;
-                                        } }
+                                        }
+                                    }
                                 </div>
                                 <h5 class="product-description-text my-3">Chi tiết sản phẩm</h5>
                                 <p class="product-description-content mb-2">
@@ -212,6 +214,15 @@
                             </div>
                             <div class="best-sale">
                                 <img src="~/Assets/image/best-seller.png" alt="">
+                            </div>
+                            <div class="percent-discount">
+                                @{
+                                    var discountpercent = product.Discount * 100;
+                                    if (discountpercent > 0)
+                                    {
+                                        <span>-@discountpercent%</span>
+                                    }
+                                }
                             </div>
                         </div>
                     </div>

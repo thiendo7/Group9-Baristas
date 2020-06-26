@@ -102,6 +102,36 @@ namespace CoffeeWebsite.Business
             }
         }
 
+        public List<Product> GetFeatureProduct()
+        {
+            using (var db = new BaristasEntities())
+            {
+                var products = db.Products
+                                .Where(x => x.IsActive == true)
+                                .Take(3)
+                                .ToList();
+                foreach(var product in products)
+                {
+                    //Lấy ra size của product
+                    product.HaveSizes = db.HaveSizes
+                                        .Where(x => x.ProductID == product.ProductID)
+                                        .OrderBy(x => x.Prices)
+                                        .ToList();
+                    //Lấy ra chi tiết của size
+                    foreach (var item in product.HaveSizes)
+                    {
+                        item.ProductSize = db.ProductSizes.FirstOrDefault(x => x.ProductSizeID == item.ProductSizeID);
+                    }
+
+                    //Lấy ra rating của product
+                    product.Ratings = db.Ratings
+                       .Where(x => x.ProductID == product.ProductID)
+                       .ToList();
+                }
+                return products;
+            }
+        }
+
         public Product ConvertProductModelToProduct(ProductModel productInCookie)
         {
             using(var db = new BaristasEntities())

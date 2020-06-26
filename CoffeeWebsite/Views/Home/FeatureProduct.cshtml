@@ -1,0 +1,131 @@
+﻿@model IEnumerable<CoffeeWebsite.Models.Product>
+@{
+    foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            <div class="product-card">
+                <div class="product-image">
+                    <a href="product_details.html">
+                        <div class="embed-responsive embed-responsive-1by1">
+                            @if (product.image != null)
+                            {
+                                <img src="@product.image" alt="espresso" class="embed-responsive-item item-prouct-mg">
+                            }
+                            else
+                            {
+                                <img src="~/Assets/image/espresso.jpg" alt="" class="embed-responsive-item item-prouct-mg">
+                            }
+
+                        </div>
+                    </a>
+                </div>
+                <h4 class="product-title">
+                    @Html.ActionLink(product.ProductName, "Index", "Product", new { productId = product.ProductID }, new { @class = "" })
+                </h4>
+                <div class="rating-view d-flex justify-content-center">
+                    @{
+                        if (product.Ratings.Count != 0)
+                        {
+                            int total = 0;
+                            for (int i = 0; i < product.Ratings.Count; i++)
+                            {
+                                total += (int)product.Ratings.ElementAt(i).NumberStar;
+                            }
+
+                            total = total / product.Ratings.Count;
+
+                            for (int i = 0; i < total; i++)
+                            {
+                                <i class="far fa-star"></i>
+                            }
+                        }
+                    }
+                </div>
+
+                @*<ul class="nav nav-pills my-3 d-flex justify-content-center" id="pills-tab" role="tablist">
+                        <li>Size:</li>
+                        <li>
+                            <a class="product-size active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                                S
+                            </a>
+                        </li>
+                        <li>
+                            <a class="product-size" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                M
+                            </a>
+                        </li>
+                        <li>
+                            <a class="product-size" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
+                                L
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="prices d-flex justify-content-center">
+                                <i class="fas fa-tag"></i>
+                                50.000 <span>Đ</span>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <div class="prices d-flex justify-content-center">
+                                <i class="fas fa-tag"></i>
+                                55.000 <span>Đ</span>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                            <div class="prices d-flex justify-content-center">
+                                <i class="fas fa-tag"></i>
+                                60.000 <span>Đ</span>
+                            </div>
+                        </div>
+                    </div>*@
+            <ul class="nav nav-pills my-3 d-flex justify-content-center " id="pills-tab1" role="tablist">
+                <li>Size:</li>
+                @{
+
+                    int count = 0;
+                    foreach (var price in product.HaveSizes)
+                    {
+                        <li onclick="ChangeSize('@price.ProductSizeID')">
+                            <a class="product-size @Html.Raw(count == 0 ? "active" : "")" id="pills-@price.HaveSizeID-tab" data-toggle="pill" href="#pills-@price.HaveSizeID" role="tab" aria-controls="pills-home" aria-selected="true">
+                                @price.ProductSize.SizeName
+                            </a>
+                        </li>
+                        count++;
+                    }
+                }
+            </ul>
+
+                <div class="tab-content" id="pills-tabContent1">
+                    @{
+                        int isactive = 0;
+                        foreach (var price in product.HaveSizes)
+                        {
+                            <div class="tab-pane fade show @Html.Raw(isactive == 0 ? "active" : "")" id="pills-@price.HaveSizeID" role="tabpanel" aria-labelledby="pills-@price.HaveSizeID-tab">
+                                <div class="prices d-flex justify-content-center">
+                                    <i class="fas fa-tag"></i>
+                                    @price.Prices.GetValueOrDefault().ToString("N0") <span>Đ</span>
+                                </div>
+                            </div> 
+                            isactive++;
+                        }
+                    }
+                </div>
+
+                <div class="best-sale">
+                    <img src="/Assets/image/best-seller.png" alt="">
+                </div>
+                <div class="percent-discount">
+                    @{
+                        var discountpercent = product.Discount * 100;
+                        if (discountpercent > 0)
+                        {
+                            <span>-@discountpercent%</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
